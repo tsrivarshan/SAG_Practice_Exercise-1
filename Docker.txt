@@ -1,0 +1,61 @@
+									X---------Docker--------X
+
+1.Create an docker volume named sampledata
+
+Answer:
+docker volume create sampledata
+
+
+2. Spin up an ubuntu docker container, mount the sampledata docker volume. Pass the env variable os=ubuntu to the docker container when bringing it up
+
+Answer:
+docker run -d -it --name sampleubuntu1 --mount source=sampledata,destination=bin/data --env OS='ubuntu' ubuntu
+
+
+3.Create an dir names /sampledir mount it to an nginx:1.19.0 docker container 
+
+Answer:
+docker run -v /names/sampledir:/var/www/html/ nginx:1.19.0
+
+
+4.Create an docker file to create an image with httpd2 server in it, on running the image as an container the server should start up
+
+Answer:
+FROM httpd:2.4
+COPY ./public-html/ /usr/local/apache2/htdocs/
+EXPOSE 80
+docker build -t myserver .
+docker run -p 80:80 myserver
+
+
+5.Create an container out of the image you created in earlier step expose the 80 port to the parent host
+Answer:
+docker run -p 80:8080 nginx:1.19.0
+
+
+6.Create an bridge network and spin up two containers in the network one with the image you created
+
+Answer:
+docker network create mynetwork
+docker run -d --name container1 --network=mynetwork ubuntu
+docker run -d --name container2 --network=mynetwork myserver
+
+
+7.Create an docker compose file with an nginx and an redis server both connected via an bridge network
+
+Answer:
+version: 3
+services:
+  redis:
+       image: redis
+       networks:
+               - mynetwork
+  nginx:
+       image: nginx
+       networks:
+               - mynetwork
+networks: 
+         mynetwork:
+
+docker-compose up
+

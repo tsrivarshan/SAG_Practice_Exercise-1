@@ -1,0 +1,53 @@
+   							X---------Scenario-based Exercises--------X
+
+
+Do all the below steps inside an AWS linux EC2 machine and share the publicip/DNS of the VM, by allowing the traffic to reach your webpage
+
+Prerequisite:
+
+=>I have launched an EC2 instance with an linux machine(Free tier) 
+=>I have installed the docker and git using yum package using the below commands
+
+sudo yum update
+sudo yum install docker
+sudo yum install git -y
+
+
+1.Write Docker file to create an image with the apache httpd2 server make the start of the httpd2 server as the container entry point.
+
+Answer:
+FROM ubuntu:latest
+RUN apt-get -y update
+RUN apt-get install -y apache2 
+RUN apt-get install -y apache2-utils
+EXPOSE 80
+COPY index.html /var/www/html/index.html
+ENTRYPOINT ["/usr/sbin/apache2ctl"]
+CMD ["-D","FOREGROUND"]
+
+
+2.Create an git repository with some html files for our webserver, clone the repo to an local linux machine.
+
+Answer:
+sudo git clone git@github.com:tsrivarshan/exercisedemoSAG.git
+
+
+3.Create an bash script which will pull the contents from the GitHub Repo every 5 hours (use Linux Cron) to the local cloned repo, The script should log all these activities to an log file with timestamp (file which keep track of all script runs)
+
+Answer:
+
+pull.sh
+git pull
+head -n 1 /var/log/lastlog/ >> log.txt
+date>>log.txt
+
+crontab -l
+* */5 * * * pull.sh
+
+
+4.Spin up the container out of the image you create from the docker file, expose the port 80, mount the dir where you have cloned the git repo to the dir inside the container from where httpd2 server reads the HTML files (/var/www/html)
+
+Answer:
+sudo docker run -p 80:80 -v /home/ec2-user/exercisedemoSAG:/var/www/html myserver
+
+
