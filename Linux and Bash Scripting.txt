@@ -1,4 +1,4 @@
-										X---------- Linux ----------X
+							X---------- Linux ----------X
 
 1.Create an file named file.txt, create an user sampleuser. Change the ownership of the file to sampleuser
 
@@ -25,7 +25,7 @@
 
       swapoff -v /sample-swap-file
 
-										X---------- Shell Scripting ---------X
+						X---------- Shell Scripting ---------X
 
 1. Write an script that will read the file content.txt that contains the names,age,job title and print the value in this order “name(age) – jobtitle”
 Contents.txt file contents
