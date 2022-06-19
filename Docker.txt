@@ -1,4 +1,4 @@
-									X---------Docker--------X
+							X---------Docker--------X
 
 1.Create an docker volume named sampledata
 
