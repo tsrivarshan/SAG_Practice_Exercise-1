@@ -103,14 +103,22 @@ echo '
 </html>
 '>/var/www/html/index.html
 
+5. Make the Https server an Linux systemd service and write an script to stop, start and restart the server via systemctl 
 
+svservicescript.sh 
 
+while true 
+do 
+python3 -m http.server 8080 
+done 
 
-
-
-
-
-
+Path: /etc/systemd/system/svservice.service
+[service] 
+ExecStart=/home/aathish/linux_task/svservicescript.sh
+ 
+Start the server- sudo systemctl start svservice
+Stop the server- sudo systemctl stop svservice
+Restart the server- sudo systemctl restart svservice
 
 
 
